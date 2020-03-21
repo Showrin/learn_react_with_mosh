@@ -1,9 +1,12 @@
 import React, { Component } from "react";
+import Pagination from "./common/pagination";
 import { getMovies, deleteMovie } from "../services/fakeMovieService";
 
 class Movies extends Component {
 	state = {
-		movies: getMovies()
+		movies: getMovies(),
+		pageSize: 4,
+		currentPage: 1
 	};
 
 	deleteMovieUpdate(id) {
@@ -18,10 +21,10 @@ class Movies extends Component {
 	}
 
 	loveStateChange(movie) {
-		const newState = {...this.state};
+		const newState = { ...this.state };
 		const index = newState.movies.indexOf(movie);
 
-		if(newState.movies[index].loved) {
+		if (newState.movies[index].loved) {
 			newState.movies[index].loved = false;
 		} else {
 			newState.movies[index].loved = true;
@@ -30,8 +33,19 @@ class Movies extends Component {
 		this.setState(newState);
 	}
 
+	handlePageChange = page => {
+		this.setState({ currentPage: page });
+	};
+
 	render() {
 		const { length } = this.state.movies;
+		const { pageSize, currentPage } = this.state;
+
+		const paginatedMovies = this.state.movies.slice(
+			currentPage * pageSize - pageSize,
+			currentPage * pageSize
+		);
+
 		return length === 0 ? (
 			<div className='my-3'>There are no movies in the database</div>
 		) : (
@@ -54,13 +68,20 @@ class Movies extends Component {
 					</thead>
 
 					<tbody>
-						{this.state.movies.map(movie => (
+						{paginatedMovies.map(movie => (
 							<tr key={movie._id}>
 								<td>{movie.title}</td>
 								<td>{movie.genre.name}</td>
 								<td>{movie.numberInStock}</td>
 								<td>{movie.dailyRentalRate}</td>
-								<td><i onClick={() => this.loveStateChange(movie)} className={this.getLoveClass(movie)} aria-hidden="true"></i></td>
+								<td>
+									<i
+										onClick={() =>
+											this.loveStateChange(movie)
+										}
+										className={this.getLoveClass(movie)}
+										aria-hidden='true'></i>
+								</td>
 								<td>
 									<button
 										onClick={() =>
@@ -74,6 +95,12 @@ class Movies extends Component {
 						))}
 					</tbody>
 				</table>
+				<Pagination
+					totalPage={length}
+					pageSize={pageSize}
+					currentPage={currentPage}
+					onPageChange={this.handlePageChange}
+				/>
 			</React.Fragment>
 		);
 	}
