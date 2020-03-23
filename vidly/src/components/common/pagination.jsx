@@ -12,7 +12,7 @@ const Pagination = props => {
 
 	return (
 		<nav>
-			<ul className="pagination">
+			<ul className="pagination justify-content-end">
 				{pages.map(page => (
 					<li
 						className={

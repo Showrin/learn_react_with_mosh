@@ -1,83 +1,59 @@
 import React, { Component } from "react";
+import TableHeader from "./common/tableHeader";
+import TableBody from "./common/tableBody";
 
-const MoviesTable = props => {
-	const {
-		length,
-		paginatedMovies,
-		loveStateChange,
-		getLoveClass,
-		deleteMovieUpdate,
-		onSort
-	} = props;
+class MoviesTable extends Component {
+	columns = [
+		{ path: "title", label: "Title" },
+		{ path: "genre.name", label: "Genre" },
+		{ path: "numberInStock", label: "Stock" },
+		{ path: "dailyRentalRate", label: "Rate" },
+		{
+			key: "love",
+			content: movie => (
+				<i
+					onClick={() => this.props.loveStateChange(movie)}
+					className={this.props.getLoveClass(movie)}
+					aria-hidden="true"
+				></i>
+			)
+		},
+		{
+			key: "delete",
+			content: movie => (
+				<button
+					onClick={() => this.props.deleteMovieUpdate(movie._id)}
+					className="btn btn-danger"
+				>
+					Delete
+				</button>
+			)
+		}
+	];
 
-	return (
-		<table className="table">
-			<thead>
-				{length === 0 ? (
-					""
-				) : (
-					<tr>
-						<th
-							className="cursor-pointer"
-							scope="col"
-							onClick={() => onSort("title")}
-						>
-							Title
-						</th>
-						<th
-							className="cursor-pointer"
-							scope="col"
-							onClick={() => onSort("genre.name")}
-						>
-							Genre
-						</th>
-						<th
-							className="cursor-pointer"
-							scope="col"
-							onClick={() => onSort("numberInStock")}
-						>
-							Stock
-						</th>
-						<th
-							className="cursor-pointer"
-							scope="col"
-							onClick={() => onSort("dailyRentalRate")}
-						>
-							Rate
-						</th>
-						<th scope="col"></th>
-						<th scope="col"></th>
-					</tr>
-				)}
-			</thead>
+	render() {
+		const {
+			paginatedMovies,
+			onSort,
+			sortingProperty,
+			sortingOrder,
+			sortingIcon
+		} = this.props;
 
-			<tbody>
-				{paginatedMovies.map(movie => (
-					<tr key={movie._id}>
-						<td>{movie.title}</td>
-						<td>{movie.genre.name}</td>
-						<td>{movie.numberInStock}</td>
-						<td>{movie.dailyRentalRate}</td>
-						<td>
-							<i
-								onClick={() => loveStateChange(movie)}
-								className={getLoveClass(movie)}
-								aria-hidden="true"
-							></i>
-						</td>
-						<td>
-							<button
-								onClick={() => deleteMovieUpdate(movie._id)}
-								className="btn btn-danger"
-							>
-								Delete
-							</button>
-						</td>
-					</tr>
-				))}
-			</tbody>
-		</table>
-	);
-};
+		return (
+			<table className="table">
+				<TableHeader
+					columns={this.columns}
+					onSort={onSort}
+					sortingProperty={sortingProperty}
+					sortingOrder={sortingOrder}
+					sortingIcon={sortingIcon}
+				/>
+
+				<TableBody data={paginatedMovies} columns={this.columns} />
+			</table>
+		);
+	}
+}
 
 export default MoviesTable;

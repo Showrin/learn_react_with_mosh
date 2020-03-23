@@ -13,7 +13,8 @@ class Movies extends Component {
 		currentGenre: "all",
 		genres: getGenres(),
 		sortingProperty: "title",
-		sortingOrder: "asc"
+		sortingOrder: "asc",
+		sortingIcon: <i class="fa fa-caret-up" aria-hidden="true"></i>
 	};
 
 	deleteMovieUpdate = id => {
@@ -48,14 +49,17 @@ class Movies extends Component {
 		this.setState({ currentGenre: genre, currentPage: 1 });
 	};
 
-	handleSort = property => {
-		let order = "asc";
-
-		if (property === this.state.sortingProperty) {
-			order = this.state.sortingOrder === "asc" ? "des" : "asc";
-		}
-
-		this.setState({ sortingProperty: property, sortingOrder: order });
+	handleSort = sortingParams => {
+		this.setState({
+			sortingProperty: sortingParams.sortingProperty,
+			sortingOrder: sortingParams.sortingOrder,
+			sortingIcon:
+				sortingParams.sortingOrder === "asc" ? (
+					<i class="fa fa-caret-up" aria-hidden="true"></i>
+				) : (
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+				)
+		});
 	};
 
 	ascSorting(a, b) {
@@ -144,6 +148,9 @@ class Movies extends Component {
 							getLoveClass={this.getLoveClass}
 							deleteMovieUpdate={this.deleteMovieUpdate}
 							onSort={this.handleSort}
+							sortingProperty={this.state.sortingProperty}
+							sortingOrder={this.state.sortingOrder}
+							sortingIcon={this.state.sortingIcon}
 						/>
 					</div>
 				</div>
