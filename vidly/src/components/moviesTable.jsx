@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import TableHeader from "./common/tableHeader";
-import TableBody from "./common/tableBody";
+import Table from "./common/table";
 
 class MoviesTable extends Component {
 	columns = [
@@ -14,8 +13,7 @@ class MoviesTable extends Component {
 				<i
 					onClick={() => this.props.loveStateChange(movie)}
 					className={this.props.getLoveClass(movie)}
-					aria-hidden="true"
-				></i>
+					aria-hidden='true'></i>
 			)
 		},
 		{
@@ -23,8 +21,7 @@ class MoviesTable extends Component {
 			content: movie => (
 				<button
 					onClick={() => this.props.deleteMovieUpdate(movie._id)}
-					className="btn btn-danger"
-				>
+					className='btn btn-danger'>
 					Delete
 				</button>
 			)
@@ -41,17 +38,14 @@ class MoviesTable extends Component {
 		} = this.props;
 
 		return (
-			<table className="table">
-				<TableHeader
-					columns={this.columns}
-					onSort={onSort}
-					sortingProperty={sortingProperty}
-					sortingOrder={sortingOrder}
-					sortingIcon={sortingIcon}
-				/>
-
-				<TableBody data={paginatedMovies} columns={this.columns} />
-			</table>
+			<Table
+				paginatedMovies={paginatedMovies}
+				onSort={onSort}
+				sortingProperty={sortingProperty}
+				sortingOrder={sortingOrder}
+				sortingIcon={sortingIcon}
+				columns={this.columns}
+			/>
 		);
 	}
 }
