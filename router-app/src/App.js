@@ -14,12 +14,21 @@ class App extends Component {
 		return (
 			<div>
 				<NavBar />
-				<div className='content'>
+				<div className="content">
 					<Switch>
-						<Route path='/products' component={Products} />
-						<Route path='/posts' component={Posts} />
-						<Route path='/admin' component={Dashboard} />
-						<Route path='/' component={Home} />
+						<Route
+							path="/products/:id"
+							component={ProductDetails}
+						/>
+						<Route
+							path="/products"
+							render={props => (
+								<Products newProp="Hello" {...props} />
+							)}
+						/>
+						<Route path="/posts/:year/:month" component={Posts} />
+						<Route path="/admin" component={Dashboard} />
+						<Route path="/" component={Home} />
 					</Switch>
 				</div>
 			</div>
