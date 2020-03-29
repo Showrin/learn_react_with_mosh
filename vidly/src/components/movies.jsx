@@ -14,7 +14,7 @@ class Movies extends Component {
 		genres: getGenres(),
 		sortingProperty: "title",
 		sortingOrder: "asc",
-		sortingIcon: <i class="fa fa-caret-up" aria-hidden="true"></i>
+		sortingIcon: <i className="fa fa-caret-up" aria-hidden="true"></i>
 	};
 
 	deleteMovieUpdate = id => {
@@ -55,9 +55,9 @@ class Movies extends Component {
 			sortingOrder: sortingParams.sortingOrder,
 			sortingIcon:
 				sortingParams.sortingOrder === "asc" ? (
-					<i class="fa fa-caret-up" aria-hidden="true"></i>
+					<i className="fa fa-caret-up" aria-hidden="true"></i>
 				) : (
-					<i class="fa fa-caret-down" aria-hidden="true"></i>
+					<i className="fa fa-caret-down" aria-hidden="true"></i>
 				)
 		});
 	};
@@ -131,7 +131,6 @@ class Movies extends Component {
 			<div className="my-3">There are no movies in the database</div>
 		) : (
 			<React.Fragment>
-				<div className="my-3">Showing {length} movies in database.</div>
 				<div className="row my-5">
 					<div className="col-3 container">
 						<Listgroup
@@ -141,6 +140,9 @@ class Movies extends Component {
 						/>
 					</div>
 					<div className="col-8 offset-1 container">
+						<div className="mb-4">
+							Showing {length} movies in database.
+						</div>
 						<MoviesTable
 							length={length}
 							paginatedMovies={paginatedMovies}
